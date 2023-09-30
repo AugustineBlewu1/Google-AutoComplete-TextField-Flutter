@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 library google_places_flutter;
 
 import 'dart:convert';
@@ -26,11 +28,11 @@ class GooglePlaceAutoCompleteTextField extends StatefulWidget {
   GooglePlaceAutoCompleteTextField(
       {required this.textEditingController,
       required this.googleAPIKey,
-      this.debounceTime: 600,
-      this.inputDecoration: const InputDecoration(),
+      this.debounceTime = 600,
+      this.inputDecoration = const InputDecoration(),
       this.itmClick,
       this.isLatLngRequired=true,
-      this.textStyle: const TextStyle(),
+      this.textStyle = const TextStyle(),
       this.countries,
       this.getPlaceDetailWithLatLng,
       });
@@ -104,12 +106,13 @@ class _GooglePlaceAutoCompleteTextFieldState
 
     this._overlayEntry = null;
     this._overlayEntry = this._createOverlayEntry();
-    Overlay.of(context)!.insert(this._overlayEntry!);
+    Overlay.of(context).insert(this._overlayEntry!);
     //   this._overlayEntry.markNeedsBuild();
   }
 
   @override
   void initState() {
+    super.initState();
     subject.stream
         .distinct()
         .debounceTime(Duration(milliseconds: widget.debounceTime))
@@ -120,7 +123,9 @@ class _GooglePlaceAutoCompleteTextFieldState
     getLocation(text);
   }
 
+  // ignore: body_might_complete_normally_nullable
   OverlayEntry? _createOverlayEntry() {
+    // ignore: unnecessary_null_comparison
     if (context != null && context.findRenderObject() != null) {
       RenderBox renderBox = context.findRenderObject() as RenderBox;
       var size = renderBox.size;
@@ -135,6 +140,7 @@ class _GooglePlaceAutoCompleteTextFieldState
                   link: this._layerLink,
                   offset: Offset(0.0, size.height + 5.0),
                   child: Material(
+                    color: Colors.transparent,
                       elevation: 1.0,
                       child: ListView.builder(
                         padding: EdgeInsets.zero,
@@ -154,6 +160,7 @@ class _GooglePlaceAutoCompleteTextFieldState
                               }
                             },
                             child: Container(
+                              
                                 padding: EdgeInsets.all(10),
                                 child: Text(alPredictions[index].description!)),
                           );
@@ -168,11 +175,12 @@ class _GooglePlaceAutoCompleteTextFieldState
     alPredictions.clear();
     this._overlayEntry = this._createOverlayEntry();
     if (context != null) {
-      Overlay.of(context)!.insert(this._overlayEntry!);
+      Overlay.of(context).insert(this._overlayEntry!);
       this._overlayEntry!.markNeedsBuild();
     }
   }
 
+  // ignore: body_might_complete_normally_nullable
   Future<Response?> getPlaceDetailsFromPlaceId(Prediction prediction) async {
     //String key = GlobalConfiguration().getString('google_maps_key');
 
